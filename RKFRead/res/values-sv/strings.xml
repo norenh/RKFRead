@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RKFRead</string>
+    <string name="main_text">Inget kort</string>
+    <string name="top_text">Väntar på kort</string>
+    <string name="button_debug">Visa Debug</string>
+    <string name="button_ticket">Visa Biljett</string>
+    <string name="button_contract">Visa Periodkort</string>
+    <string name="title_activity_display_message">Meddelande</string>
+    <string name="ticket_title">Senaste biljett</string>
+    <string name="debug_title">Debug information</string>
+    <string name="contract_title">Periodkort</string>
+    <string name="displayMessage">Inget</string>
+    <string name="reading">Läser...</string>
+    <string name="tag_lost">Tag tappad, försök igen</string>
+    <string name="unknown_card">Okänd korttyp</string>
+    <string name="top_string">Kort: %1$d - %2$s</string>
+    <string name="last_ticket">Senaste biljett</string>
+    <string name="ticket_orig_dest">Från %1$s till %2$s</string>
+    <string name="last_contract">Period kort slutar</string>
+    <string name="validity_start_time">Period startar: %1$s</string>
+    <string name="validity_end_time">Period slutar: %1$s</string>
+    <string name="zone">Giltig zon</string>
+    <string name="price">Pris: %1$s</string>
+    <string name="journey_run">Linje: %1$d</string>
+    <string name="from_zone">Från zon: %1$s</string>
+    <string name="to_zone">Till zon: %1$s</string>
+    <string name="passenger">Passagerare: %1$d</string>
+    <string name="passenger_adult">Vuxen</string>
+    <string name="passenger_child">Barn</string>
+    <string name="passenger_student">Student</string>
+    <string name="passenger_pensioner">Ålderspensionär</string>
+    <string name="passenger_jojo_duo">Duo/Familj</string>
+    <string name="cico">Status: %1$s</string>
+    <string name="cico_open">Öppen (efter Check-in)</string>
+    <string name="cico_closed">Stängd (efter Check-out)</string>
+    <string name="unknown">Okänd</string>
+    <string name="unspecified">Icke specifierad</string>
+</resources>

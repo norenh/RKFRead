@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<TextView android:id="@+id/topTextView"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/top_text"
+    />
+<TextView android:id="@+id/mainTextView"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/main_text"
+    android:gravity="center"
+    android:textSize="32dp"
+    />
+<TextView android:id="@+id/infoTextView1a"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text=""
+     />
+<TextView android:id="@+id/infoTextView1b"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text=""
+    android:gravity="center"
+     />
+<TextView android:id="@+id/infoTextView2a"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text=""
+    />
+<TextView android:id="@+id/infoTextView2b"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text=""
+    />
+<Button
+    android:id="@+id/button_ticket"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/button_ticket"
+    android:onClick="buttonTicket"
+    android:gravity="center"
+    android:enabled="false"
+    />
+<Button
+    android:id="@+id/button_contract"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/button_contract"
+    android:onClick="buttonContract"
+    android:gravity="center"
+    android:enabled="false"
+    />
+<Button
+    android:id="@+id/button_debug"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/button_debug"
+    android:onClick="buttonDebug"
+    android:gravity="center"
+    android:enabled="false"
+    />
+</LinearLayout>
+

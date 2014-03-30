@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RKFRead</string>
+    <string name="main_text">No Data</string>
+    <string name="top_text">Waiting for card</string>
+    <string name="button_debug">Show Debug</string>
+    <string name="button_ticket">Show Ticket</string>
+    <string name="button_contract">Show Period Card</string>
+    <string name="title_activity_display_message">Message</string>
+    <string name="ticket_title">Latest ticket</string>
+    <string name="debug_title">Debug output</string>
+    <string name="contract_title">Period card</string>
+    <string name="displayMessage">None</string>
+    <string name="reading">Reading...</string>
+    <string name="tag_lost">Tag lost, please try again</string>
+    <string name="unknown_card">Unknown cardtype</string>
+    <string name="top_string">Card: %1$d - %2$s</string>
+    <string name="last_ticket">Last ticket</string>
+    <string name="ticket_orig_dest">From %1$s to %2$s</string>
+    <string name="last_contract">Period card end</string>
+    <string name="validity_start_time">Period start: %1$s</string>
+    <string name="validity_end_time">Period end: %1$s</string>
+    <string name="zone">Valid zone</string>
+    <string name="price">Price: %1$s</string>
+    <string name="journey_run">Line: %1$d</string>
+    <string name="from_zone">From zone: %1$s</string>
+    <string name="to_zone">To zone: %1$s</string>
+    <string name="passenger">Passenger: %1$d</string>
+    <string name="passenger_adult">Adult</string>
+    <string name="passenger_child">Child</string>
+    <string name="passenger_student">Student</string>
+    <string name="passenger_pensioner">Old age pensioner</string>
+    <string name="passenger_jojo_duo">Duo/Family</string>
+    <string name="cico">Status: %1$s</string>
+    <string name="cico_open">Open (after Check-in)</string>
+    <string name="cico_closed">Closed (after Check-out)</string>
+    <string name="unknown">Unknown</string>
+    <string name="unspecified">Unspecified</string>
+</resources>
