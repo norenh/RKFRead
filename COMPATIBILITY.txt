@@ -1,0 +1,17 @@
+Unfortunately there are several devices that RKFRead does not work with.
+This file tries to list known problematic devices that has a NFC reader but are
+unable to read Mifare Classic cards.
+
+- Google Nexus 4/Nexus 5/Nexus 7 (2013 version)/Nexus 10
+- Samsung Galaxy S4/S4 Mini/S3 Mini/Ace 3/Express 2/Mega/Note 3
+- LG G2/Optimus L7 II
+- Moto X
+- HUAWEI Honor 2 (u9508)
+
+If you have any of these devices, the app will install but will be unable to 
+read any data from the card.
+
+The reason for this is that the card technology used (Mifare Classic) is not
+technically standard and there are NFC chipsets sold that are unable to deal
+with this protocol properly. There is no possibility to work around this in 
+software as far as I am aware.
