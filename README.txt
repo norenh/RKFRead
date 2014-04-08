@@ -2,7 +2,7 @@ RKFRead
 -------
 
 An Android NFC-app for reading travelcards (purses, period cards, etc) made by 
-"Resekortsföreningen i Norden" used in Sweden and possibly Denmark and Norway.
+"Resekortsföreningen i Norden" used in Sweden and Denmark.
 
 https://github.com/norenh/RKFRead/releases - Latest version and apk file
 
@@ -34,6 +34,7 @@ Known to work cards
 * Norrbotten busskort (purse only)
 * SL cards
 * Västtrafiken cards (purse only)
+* Rejsekort (purse only)
 
 Known not to work
 -----------------
