@@ -62,6 +62,7 @@ public class RKFRead extends Activity {
 	GOTLAND,
 	JOJO, // Länstrafiken Kronoberg and Skånetrafiken
 	NORRBOTTEN,
+	REJSEKORT,
 	SL,
 	UNINITIALIZED,
 	UNKNOWN,
@@ -192,14 +193,17 @@ public class RKFRead extends Activity {
 	protected boolean detectCardType() throws IOException {
 	    if(mfc.authenticateSectorWithKeyA(1, hexStringToByteArray("434f4d4d4f41"))) {
 		cardType = CardType.JOJO;
-	    } else if(mfc.authenticateSectorWithKeyA(7, hexStringToByteArray("a64598a77478"))) {
+	    } else if(mfc.authenticateSectorWithKeyA(6, hexStringToByteArray("a64598a77478"))) {
 		cardType = CardType.SL;
 	    }
-	    else if(mfc.authenticateSectorWithKeyA(7, hexStringToByteArray("0297927c0f77"))) {
+	    else if(mfc.authenticateSectorWithKeyA(6, hexStringToByteArray("0297927c0f77"))) {
 		cardType = CardType.VASTTRAFIKEN;
 	    }
-	    else if(mfc.authenticateSectorWithKeyA(7, hexStringToByteArray("54726176656c"))) {
+	    else if(mfc.authenticateSectorWithKeyA(6, hexStringToByteArray("54726176656c"))) {
 		cardType = CardType.NORRBOTTEN;
+	    }
+	    else if(mfc.authenticateSectorWithKeyA(6, hexStringToByteArray("fc00018778f7"))) {
+		cardType = CardType.REJSEKORT;
 	    }
 	    else {
 		cardType = CardType.UNKNOWN;
@@ -237,6 +241,31 @@ public class RKFRead extends Activity {
 		    ret = mfc.authenticateSectorWithKeyA(sector, hexStringToByteArray("54726176656c"));
 		    break;
 		default:
+		    break;
+		}
+		break;
+	    case REJSEKORT:
+		switch(sector) {
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 39:
+		    ret = mfc.authenticateSectorWithKeyA(sector, hexStringToByteArray("fc00018778f7"));
+		    break;
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+		    ret = mfc.authenticateSectorWithKeyA(sector, hexStringToByteArray("0297927c0f77"));
+		    break;
+		default:
+		    ret = mfc.authenticateSectorWithKeyA(sector, hexStringToByteArray("722bfcc5375f"));
 		    break;
 		}
 		break;

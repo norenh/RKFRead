@@ -36,6 +36,7 @@ public class RKFCard {
     public Map<String,RKFObject> firstSector = null;
     public Map<String,RKFObject> directory = null;
     public Map<String,RKFObject> appStatus = null;
+    public Map<String,RKFObject> eventLog = null;
     public Map<String,RKFObject> purse = null;
     public Map<String,RKFObject> dynPurse = null;
     public Map<String,RKFObject> dynPurseOld = null;
@@ -49,9 +50,11 @@ public class RKFCard {
     public Map<String,RKFObject> customerProfile = null;
     public Map<String,RKFObject> specialTicket = null;
     private int pos;
+    private int cardVersion = -1;
     private Calendar baseTime; // used for relative TimeDate attributes
     private String debugString = "";
     private boolean isSL = false;
+    private boolean isRejseKort = false;
 
     public RKFCard() {
 	bytes = new byte[16*48];
@@ -60,7 +63,6 @@ public class RKFCard {
     public RKFCard(byte[] b) {
 	bytes = b;
 	parseCard();
-	//searchForVal(0, (16*48*8), 24, 1760); 
     }
 
     public void addBlock(int sector, int block, byte[] b) {
@@ -83,11 +85,13 @@ public class RKFCard {
 	parseTCDI(128*3);
 
 	for(int i=2;i<(bytes.length/48);i++) {
-	    if(tcdi[i] == 0x01)
+	    if(i < 16 && tcdi[i] == 0x01)
 		continue;
 	    parseSector(i);
 	}
 	debug("--- Finished parsing ---");
+	//searchForVal(0, (16*48*8), 12, 0x7d0); 
+
 	return true;
     }
 
@@ -111,6 +115,9 @@ public class RKFCard {
 	case 0xA3:
 	    parseTCST(sb*8);
 	    break;
+	case 0x84:
+	    parseEventLog(sb*8);
+	    break;
 	case 0x85:
 	    parsePurse(sb*8);
 	    break;
@@ -131,12 +138,19 @@ public class RKFCard {
 	pos = 0;
 	addAttribute("Serial number", 32, firstSector);
 
-	// go to next block
-	pos = 18*8;
-	addAttribute("Card version", 6, firstSector);
+	// go to next block and skip MAD Info Byte
+	pos = 16*9;
+	//addAttribute("MAD Info Byte", 16, firstSector);
+	cardVersion = (int)addAttribute("Card version", 6, firstSector);
+	
 	ret = addAttribute("Card provider", 12, firstSector, RKFObject.RKFType.AID);
-	if(ret == 0x65) 
+	if(0x65 == ret) {
 	    isSL = true;
+	}
+	else if(0x7d0 == ret) {
+	    isRejseKort = true;
+	}
+
 	addAttribute("Card validity end date", 14, firstSector,RKFObject.RKFType.Date);
 	addAttribute("Status", 8, firstSector, RKFObject.RKFType.Status);
 	ret = addAttribute("Currency unit", 16, firstSector, RKFObject.RKFType.CurrencyUnit);
@@ -185,6 +199,23 @@ public class RKFCard {
 	    aid_bool = !aid_bool;
 	}
 	
+    }
+
+    // TCEL: Event Log 0x84
+    private void parseEventLog(int n) {
+	pos = n + 8;
+	eventLog = new HashMap<String,RKFObject>();
+
+	for(int i=0; i<3; i++) {
+	    addAttribute("Event Date Stamp", 14, eventLog, RKFObject.RKFType.Date);
+	    addAttribute("Event Time Stamp", 16, eventLog, RKFObject.RKFType.Time);
+	    addAttribute("AID", 12, eventLog, RKFObject.RKFType.AID);
+	    addAttribute("Device", 16, eventLog);
+	    addAttribute("Device Transaction Number", 24, eventLog);
+	    addAttribute("Event Code", 6, eventLog);
+	    addAttribute("Event Data", 24, eventLog);
+	    pos += 16; // skip checksum and next identifier
+	}
     }
 
     // TCTI/TCCO: Dynamic Content
@@ -462,41 +493,51 @@ public class RKFCard {
 
 	int version = (int)addAttribute("Version", 6, purse);
 	addAttribute("AID", 12, purse, RKFObject.RKFType.AID);
-	addAttribute("Serial Number", 32, purse);
-	addAttribute("Start Date", 14, purse, RKFObject.RKFType.Date);
-	
+
+	if(version < 6) {
+	    addAttribute("Serial Number", 32, purse);
+	    addAttribute("Start Date", 14, purse, RKFObject.RKFType.Date);
+	}
+
 	int dynField = 1;
+	int blockLen = 128;
+	if(isRejseKort) {
+	    blockLen = 256;
+	}
+
 	if(null != dynamicData) { 
 	    dynField = dynamicData[n/(48*8)];
-	    }
+	}
 	else {
-	    pos = n+128;
+	    pos = n+blockLen;
 	    // determine latest by checking the higher TX number
 	    int txnr1 = getIntFromPos(16);
-	    pos += 128;
+	    pos += blockLen;
 	    int txnr2 = getIntFromPos(16);
 	    if(txnr2 > txnr1) {
 		dynField = 2;
 	    }
 	}
-	pos = n+128;
+	pos = n+blockLen;
 	// skip to dynamic data
 	if(dynField == 2) {
 	    // Latest data in second field
 	    parseDynPurse(dynPurseOld, version);
-	    pos = n+256;
+	    pos = n+(blockLen*2);
 	    parseDynPurse(dynPurse, version);
 	}
 	else {
 	    parseDynPurse(dynPurse, version);
-	    pos = n+256;
+	    pos = n+(blockLen*2);
 	    parseDynPurse(dynPurseOld, version);
 	}
     }
    
     private void parseDynPurse(final Map<String,RKFObject> m, int version) {
 	addAttribute("Transaction Number", 16, m);
-	addAttribute("Purse Expiry Date", 14, m, RKFObject.RKFType.Date);
+	if(version < 6) {
+	    addAttribute("Purse Expiry Date", 14, m, RKFObject.RKFType.Date);
+	}
 	addAttribute("Value", 24, m, RKFObject.RKFType.Amount);
 	if(version == 2) {
 	    addAttribute("Status", 8, m, RKFObject.RKFType.Status);
@@ -922,6 +963,8 @@ public class RKFCard {
 	    return "Norges Statsbaner";
 	case 0x3EB:
 	    return "SL - Sotr-Oslo Lokaltrafikk A.S.";
+	case 0x7D0:
+	    return "Rejsekort A/S";
 	case 0x7D1:
 	    return "HUR - Hovedstadens Udviklingsråd";
 	case 0x7D2:
