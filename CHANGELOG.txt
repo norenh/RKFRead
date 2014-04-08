@@ -1,4 +1,6 @@
 Version 1.1:
 * Added file listing incompatible devices
+* Added minimal and initial Event log parsin
+* Added initial support for purse on Danish Rejsekort
 Version 1.0:
 * Initial Release
