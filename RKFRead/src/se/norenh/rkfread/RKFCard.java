@@ -485,6 +485,8 @@ public class RKFCard {
 
     // TCPU: Purse 0x85
     private void parsePurse(int n) {
+	if(null != purse)  // skip any extra purse found (ugly fix for rejsekort with backup purse)
+	    return;
 	purse = new HashMap<String,RKFObject>();
 	dynPurse = new HashMap<String,RKFObject>();
 	dynPurseOld = new HashMap<String,RKFObject>();
