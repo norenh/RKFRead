@@ -82,15 +82,22 @@ public class RKFCard {
 	debug("-- First Sector");
 	parseFirstSector();
 	debug("-- TCDI");
-	parseTCDI(128*3);
+	if(isSL) {
+	    // SL (or version 4) seems to have two TCDI and from the looks of it
+	    // the second one seems to be the valid one
+	    parseTCDI(256*3);
+	}
+	else {
+	    parseTCDI(128*3);
+	}
 
 	for(int i=2;i<(bytes.length/48);i++) {
 	    if(i < 16 && tcdi[i] == 0x01)
-		continue;
+	    	continue;
 	    parseSector(i);
 	}
 	debug("--- Finished parsing ---");
-	//searchForVal(0, (16*48*8), 12, 0x7d0); 
+	//searchForVal(0, (16*48*8), 16, 627547); 
 
 	return true;
     }
@@ -351,6 +358,8 @@ public class RKFCard {
 
     // TCCO: Contract 0x87
     private void parseTCCO(int n) {
+	if(null != contract)  // skip any extra contract found (ugly fix for SL-cards with extra contract)
+	    return;
 	int dynStart, dynStartPos, dynBlockLen;
 	contract = new HashMap<String,RKFObject>();
 	dynContract = new HashMap<String,RKFObject>();
