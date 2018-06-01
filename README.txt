@@ -40,8 +40,9 @@ Known not to work
 -----------------
 
 * Gotland travelcards (United Ticket from Estonia and not RKF standard)
+* VL travelcards (Same as Gotland, not a RKF standard)
 
-Licence
+License
 -------
 
 This application was developed by Henning Norén in 2014.
